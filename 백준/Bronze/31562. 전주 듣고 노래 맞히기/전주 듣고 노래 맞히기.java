@@ -14,8 +14,7 @@ public class Main {
         HashMap<String, String> songs = new HashMap<>();
 
         for(int i = 0; i < N; i++) {
-            songInput[i] = br.readLine();
-            String[] song = songInput[i].split(" ");
+            String[] song = br.readLine().split(" ");
             String key = song[2] + song[3] + song[4];
 
             if (!songs.containsKey(key)) {
