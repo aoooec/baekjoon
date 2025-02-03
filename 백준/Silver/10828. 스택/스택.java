@@ -23,11 +23,7 @@ public class Main {
                     s.push(num);
                     break;
                 case "pop":
-                    if (s.isEmpty()) {
-                        bw.write(-1 + "\n");
-                    } else {
-                        bw.write(s.pop() + "\n");
-                    }
+                    bw.write(s.isEmpty() ? -1 + "\n" : s.pop() + "\n");
                     break;
                 case "size":
                     bw.write(s.size() + "\n");
