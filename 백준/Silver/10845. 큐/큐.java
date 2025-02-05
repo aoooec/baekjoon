@@ -1,20 +1,21 @@
 import java.io.*;
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int N = Integer.parseInt(br.readLine());
-        Deque<Integer> q = new ArrayDeque<>();
+        Queue<Integer> q = new LinkedList<>();
+        int last = 0;
 
         for(int i = 0; i < N; i++) {
             String command = br.readLine();
 
             switch(command) {
                 case "pop":
-                    bw.write((q.isEmpty() ? -1 : q.pop()) + "\n");
+                    bw.write((q.isEmpty() ? -1 : q.poll()) + "\n");
                     break;
                 case "size":
                     bw.write(q.size() + "\n");
@@ -26,11 +27,12 @@ public class Main {
                     bw.write((q.isEmpty() ? -1 : q.peek()) + "\n");
                     break;
                 case "back":
-                    bw.write((q.isEmpty() ? -1 : q.peekLast()) + "\n");
+                    bw.write((q.isEmpty() ? -1 : last) + "\n");
                     break;
                 default:
                     int num = Integer.parseInt(command.split(" ")[1]);
                     q.add(num);
+                    last = num;
                     break;
             }
         }
