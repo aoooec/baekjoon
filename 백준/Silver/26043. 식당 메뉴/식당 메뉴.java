@@ -1,18 +1,18 @@
 import java.io.*;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 
-        int n = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine()); 
 
-        Queue<int[]> queue = new LinkedList<>();
-        List<Integer> A = new ArrayList<>(); 
-        List<Integer> B = new ArrayList<>(); 
-        List<Integer> C = new ArrayList<>(); 
+        Queue<int[]> queue = new LinkedList<>(); 
+        List<List<Integer>> list = new ArrayList<>();
+        for(int i = 0; i < 3; i++) {
+            list.add(new ArrayList<>());
+        }
 
         for(int i = 0; i < n; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
@@ -26,25 +26,31 @@ public class Main {
                 int servedMenu = Integer.parseInt(st.nextToken());
                 int[] student = queue.poll();
                 if(student[1] == servedMenu) {
-                    A.add(student[0]);
+                    list.get(0).add(student[0]);
                 } else {
-                    B.add(student[0]);
+                    list.get(1).add(student[0]);
                 }
             }
         }
         br.close();
 
         while(!queue.isEmpty()) {
-            C.add(queue.poll()[0]);
+            list.get(2).add(queue.poll()[0]);
         }
 
-        Collections.sort(A);
-        Collections.sort(B);
-        Collections.sort(C);
+       for(int i = 0; i < 3; i++) {
+           Collections.sort(list.get(i));
 
-        bw.write(A.isEmpty() ? "None \n" : A.stream().map(String::valueOf).collect(Collectors.joining(" ")) + "\n");
-        bw.write(B.isEmpty() ? "None \n" : B.stream().map(String::valueOf).collect(Collectors.joining(" ")) + "\n");
-        bw.write(C.isEmpty() ? "None" : C.stream().map(String::valueOf).collect(Collectors.joining(" ")) + "\n");
+           if(list.get(i).isEmpty()) {
+               bw.write("None");
+           } else {
+               for(int StudentNum: list.get(i)) {
+                   bw.write(StudentNum + " ");
+               }
+           }
+
+           bw.newLine();
+       }
 
         bw.flush();
         bw.close();
