@@ -11,7 +11,7 @@ public class Main {
 		System.out.println(op(A, B));
 	}
 	
-	static int op(int A, int B) {
-		return (A + B)*(A - B);
+	static long op(int A, int B) {
+		return (long)(A + B)*(A - B);
 	}
 }
