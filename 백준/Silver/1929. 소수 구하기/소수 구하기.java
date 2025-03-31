@@ -9,17 +9,17 @@ public class Main {
 		StringBuilder sb = new StringBuilder();
 		int a = Integer.parseInt(st.nextToken());
 		int b = Integer.parseInt(st.nextToken());
-		for(int i = a; i <= b; i++) {
-			if(i == 1) continue;
-			int sq = (int) Math.sqrt(i);
-			boolean isOk = true;
-			for(int j = 2; j <= sq && j < i; j++) {
-				if(i % j == 0) {
-					isOk = false;
-					break;
-				}
+		boolean[] prime = new boolean[b+1];
+		for(int i = 2; i*i <= b; i++) {
+			if(prime[i]) continue;
+			for(int j = i*i; j <= b; j+= i) {
+				prime[j] = true;
 			}
-			if(isOk) sb.append(i).append("\n");
+		}
+		for(int i = a; i <= b; i++) {
+			if(i < 2) continue;
+			if(prime[i]) continue;
+			sb.append(i).append("\n");
 		}
 		System.out.print(sb.toString());
 	}
