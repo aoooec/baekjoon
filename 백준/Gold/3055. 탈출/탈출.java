@@ -1,6 +1,6 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
@@ -8,7 +8,7 @@ public class Main {
 	private static int R, C;
 	private static char[][] map;
 	private static int[][] affection;
-	private static Queue<int[]> q = new LinkedList<int[]>();
+	private static Queue<int[]> q = new ArrayDeque<>();
 	private static int[] dr = {-1, 1, 0, 0};
 	private static int[] dc = {0, 0, -1, 1};
 	private static int ans;
@@ -48,7 +48,7 @@ public class Main {
 	}
 
 	private static void bfs() {
-		Queue<int[]> q2 = new LinkedList<int[]>();
+		Queue<int[]> q2 = new ArrayDeque<>();
 		q2.add(new int[] {startR, startC, 1});
 		visited[startR][startC] = true;
 		
