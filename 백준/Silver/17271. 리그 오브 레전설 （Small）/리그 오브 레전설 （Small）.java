@@ -13,8 +13,8 @@ public class Main {
         int[] dp = new int[N+1];
         dp[0] = 1;
         for(int i = 1; i <= N; i++) {
-            dp[i] = dp[i-1];
-            if(i >= M) dp[i] = dp[i] + dp[i-M];
+            if(i >= M) dp[i] = dp[i-1] + dp[i-M];
+            else dp[i] = dp[i-1];
             dp[i] %= mod;
         }
         System.out.print(dp[N]);
