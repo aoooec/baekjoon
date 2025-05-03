@@ -24,17 +24,17 @@ public class Main {
             edges.get(A).add(B); // 단방향
         }
 
-        Arrays.fill(dist, -1); // 범위 중 가장 큰 값 + 1
+        Arrays.fill(dist, INF); // 최댓값 + 1
         dist[X] = 0; // 자기 자신
 
-        Queue<Integer> q = new ArrayDeque<>();
+        Queue<Integer> q = new ArrayDeque<>(); // 모든 거리가 1 -> PQ 사용할 필요 x (순차적)
         q.add(X);
         while(!q.isEmpty()) {
             int tmp = q.poll();
-
-            for(int next: edges.get(tmp)) {
-                if(dist[next] == -1 || dist[next] > dist[tmp] + 1) {
-                    dist[next] = dist[tmp] + 1;
+            if(dist[tmp] + 1 > K) break;
+            for(int next: edges.get(tmp)) { // 연결된 간선 도착지를 찾아서
+                if(dist[next] > dist[tmp] + 1) {  // 기존 거리가 지금보다 큰 경우
+                    dist[next] = dist[tmp] + 1; // 갱신 (작은값으로)
                     q.add(next);
                 }
             }
@@ -43,9 +43,9 @@ public class Main {
         for(int i = 1; i <= N; i++) { // 오름차순
             if(dist[i] == K) { // 거리가 정확히 일치하는 경우
                 System.out.println(i);
-                isFound = true;
+                isFound = true; // 플래그 변경
             }
         }
-        if(!isFound) System.out.print(-1);
+        if(!isFound) System.out.print(-1); // 일치하는 경우가 없으면 -1
     }
 }
