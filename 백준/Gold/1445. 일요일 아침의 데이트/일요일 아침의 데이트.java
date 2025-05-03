@@ -50,7 +50,7 @@ public class Main {
         dist = new int[N][M][2]; // [0] -> 쓰레기를 지나는 수, [1] -> 쓰레기 옆을 지나는 수
         for(int i = 0; i < N; i++) {
             for (int j = 0; j < M; j++) {
-                Arrays.fill(dist[i][j], Integer.MAX_VALUE); // 최댓값으로 채우기
+                Arrays.fill(dist[i][j], 2500); // 최댓값으로 채우기
             }
         }
         dist[sr][sc][0] = 0;
@@ -80,7 +80,7 @@ public class Main {
         }
         // 모든 경우를 다 돈 후, 최종적으로 꽃 좌표에 저장된 값을 출력
         sb.append(dist[fr][fc][0]).append(" ").append(dist[fr][fc][1]);
-        System.out.println(dist[fr][fc][0] + " " + dist[fr][fc][1]);
+        System.out.print(sb.toString());
     }
 
     static boolean check(int r, int c) {
