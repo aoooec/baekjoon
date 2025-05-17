@@ -16,11 +16,11 @@ public class Main {
 		int T = Integer.parseInt(br.readLine()); // tc 수
 		while(T-- > 0) {
 			int F = Integer.parseInt(br.readLine());
-			count = 1;
+			count = 0;
 			usermap = new HashMap<String, Integer>();
-			p = new int[200001]; // 관계의 수는 최대 100000 -> 모두 서로소 집합일 경우 사람은 200000
-			rank = new int[200001]; // 사람마다의 네트워크 수를 저장  
-			for(int i = 1; i <= 200000; i++) { // 초기화 
+			p = new int[200000]; // 관계의 수는 최대 100000 -> 모두 서로소 집합일 경우 사람은 200000
+			rank = new int[200000]; // 사람마다의 네트워크 수를 저장  
+			for(int i = 0; i < 200000; i++) { // 초기화 
 				p[i] = i;
 				rank[i] = 1; 
 			}
@@ -54,7 +54,7 @@ public class Main {
 	private static int union(int x, int y) {
 		x = findSet(x);
 		y = findSet(y); // 둘의 부모를 찾음 
-		if(x == y) return rank[x];
+		if(x == y) return rank[x]; // 부모가 같으면 바로 네트워크 수 반환 
 		if(x != y) { // 서로소 집합일 경우
 			if(x > y) {
 				p[x] = y;
