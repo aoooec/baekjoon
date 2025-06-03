@@ -12,13 +12,11 @@ public class Main {
             pq.add(Integer.parseInt(br.readLine())); // 1~1000
         }
         int ans = 0;
-        while(true) {
-            if(pq.size() == 1) break;
+        while(pq.size() > 1) {
             int a = pq.poll();
             int b = pq.poll();
             int sum = a + b;
             ans += sum;
-            if(pq.isEmpty()) break;
             pq.add(sum);
         }
         System.out.print(ans);
