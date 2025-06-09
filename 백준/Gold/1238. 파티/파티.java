@@ -20,12 +20,6 @@ public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-        // N개의 마을에 한명씩 살고있음
-        // X번 마을에 모여서 파티 -> 마을 사이에는 총 M개의 단방향 도로
-        // 길을 지날 때 T의 시간 소비
-        // 최단시간에 오고 가기
-        // 도로는 단방향
-        // 오고 가는ㄷ ㅔ 가장 많은 시간을 소비하는 학생을 구하라
         N = Integer.parseInt(st.nextToken());
         int M = Integer.parseInt(st.nextToken());
         int X = Integer.parseInt(st.nextToken());
@@ -61,7 +55,6 @@ public class Main {
 
     static int[] dijkstra(List<Edge>[] adj, int start) {
         int[] dist = new int[N+1]; // 거리를 담을 배열
-        boolean[] visited = new boolean[N+1]; // 방문 체크 배열
         PriorityQueue<Edge> pq = new PriorityQueue<>();
 
         Arrays.fill(dist, Integer.MAX_VALUE);
@@ -71,9 +64,9 @@ public class Main {
         while(!pq.isEmpty()) {
             Edge tmp = pq.poll(); // 가장 빠른 길
             int now = tmp.to; // 도착 지점
+            int time = tmp.time;
 
-            if(visited[now]) continue; // 이미 방문한 곳이면 패스
-            visited[now] = true;
+            if(dist[now] < time) continue;
 
             for(Edge next: adj[now]) { // 현재 점에서 갈 수 있는 다른 길
                 if(dist[next.to] > dist[now] + next.time) {
