@@ -1,70 +1,96 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
+	
 	static int N, M, H, ans = -1;
-	static int[][] map;	
+	static int[][] ladder;
 	static boolean isFound = false;
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine(), " ");
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
-		H = Integer.parseInt(st.nextToken());
-		map = new int[H+1][N+1];  
-		for(int i = 0; i < M; i++) {
-			st = new StringTokenizer(br.readLine(), " ");
-			int a = Integer.parseInt(st.nextToken());
-			int b = Integer.parseInt(st.nextToken());
-			map[a][b] = 1;
-			map[a][b+1] = -1;
+	
+	public static void dfs(int num, int limit) {
+		if(isFound) return;
+		if(num == limit) {
+			if(check()) {
+				ans = limit;
+				isFound = true;
+			}
+			return;
 		}
-		for (int i = 0; i <= 3; i++) {
-		    dfs(0, i, 1, 1);
-		    if (isFound) {
-		        ans = i;
-		        break;
-		    }
+		
+		for(int i = 1; i < N; i++) {
+			for(int j = 1; j <= H; j++) {
+				if(ladder[i][j] == 0 && ladder[i+1][j] == 0) {
+					ladder[i][j] = 1;
+					ladder[i+1][j] = -1;
+					dfs(num + 1, limit);
+					ladder[i][j] = 0;
+					ladder[i+1][j] = 0;
+				}
+			}
 		}
-		System.out.print(ans);
 	}
 	
-	static boolean isOk() {
+	public static boolean check() {
 		for(int i = 1; i <= N; i++) {
-			int pos = i; // 현재 세로선 
-			for(int h = 1; h <= H; h++) {
-				if(map[h][pos] == 1) pos++; // 오른쪽 가로선 연결됨 
-				else if (map[h][pos] == -1) pos--; // 왼쪽 가로선 연결됨 
+			int l = i;
+			int d = 1;
+			
+			while(d <= H) {
+				if(ladder[l][d] == 1) l++;
+				else if(ladder[l][d] == -1) l--;
+				d++;
 			}
-			if(pos != i) return false; // 도달결과 시작과 같은 열이 아닐 경우 실패 
+			if(l != i) return false;
 		}
 		return true;
 	}
 	
-	static void dfs(int cnt, int limit, int x, int y) {
-		if(isFound) return;
-		
-		if (cnt == limit) {
-	        if (isOk()) {
-	            isFound = true;
-	        }
-	        return;
-	    }
-		
-		// 가로선 추가 후 dfs 재귀 
-		for (int i = x; i <= H; i++, y = 1) {
-            for (int j = y; j < N; j++) {
-                if (map[i][j] != 0 || map[i][j + 1] != 0) continue;
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringTokenizer st = new StringTokenizer(br.readLine());
 
-                // 인접 가로선 방지
-                map[i][j] = 1;
-                map[i][j + 1] = -1;
-                dfs(cnt + 1, limit, i, j + 2);
-                map[i][j] = 0;
-                map[i][j + 1] = 0;
-            }
-        }
+		N = Integer.parseInt(st.nextToken());
+		M = Integer.parseInt(st.nextToken());
+		H = Integer.parseInt(st.nextToken());
+
+		ladder = new int[N+1][H+1];
+		
+		for(int i = 0; i < M; i++) {
+			st = new StringTokenizer(br.readLine());
+			int b = Integer.parseInt(st.nextToken());
+			int a = Integer.parseInt(st.nextToken());
+
+			ladder[a][b] = 1;
+			ladder[a+1][b] = -1;
+		}
+		
+		boolean impossible = false;
+		int cnt = 0;
+		
+		for(int i = 1; i < N; i++) {
+			int oddCnt = 0;
+			for(int j = 1; j <= H; j++) {
+				if(ladder[i][j] == 1) {
+					oddCnt++;
+				}
+			}
+			if(oddCnt % 2 == 1) {
+				cnt++;
+			}
+			if(cnt > 3) {
+				impossible = true; 
+				break;
+			}
+		}
+		
+		if(!impossible) {
+			for(int i = 0; i <= 3; i++) {
+			 dfs(0, i);
+			}
+		}
+		
+		System.out.println(ans);
 	}
-	
-}
+} 
