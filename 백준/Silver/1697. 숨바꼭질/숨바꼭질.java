@@ -16,6 +16,7 @@ public class Main {
     }
 
     private static int bfs() {
+        if(N == K) return 0;
         Queue<Integer> q = new ArrayDeque<>();
         q.add(N);
         visited[N] = true;
@@ -24,18 +25,12 @@ public class Main {
             int size = q.size();
             for(int i = 0; i < size; i++) {
                 int now = q.poll();
-                if(now == K) return cnt;
-                if(now + 1 <= 100000 && !visited[now + 1]) {
-                    q.add(now + 1);
-                    visited[now + 1] = true;
-                }
-                if(now - 1 >= 0 && !visited[now - 1]) {
-                    q.add(now - 1);
-                    visited[now - 1] = true;
-                }
-                if(now * 2 <= 100000 && !visited[now * 2]) {
-                    q.add(now * 2);
-                    visited[now * 2] = true;
+                for (int next : new int[]{now - 1, now + 1, now * 2}) {
+                    if (next == K) return cnt + 1;
+                    if (next >= 0 && next <= 100000 && !visited[next]) {
+                        visited[next] = true;
+                        q.add(next);
+                    }
                 }
             }
             cnt++;
