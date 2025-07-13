@@ -4,7 +4,7 @@ import java.io.*;
 public class Main {
     static int R, C;
     static char[][] map;
-    static boolean[][] visited;
+    static boolean[][] visitedF, visitedJ;
     static int[] dr = {-1, 1, 0, 0},
             dc = {0, 0, -1, 1};
     public static void main(String[] args) throws Exception {
@@ -13,7 +13,8 @@ public class Main {
         R = Integer.parseInt(st.nextToken());
         C = Integer.parseInt(st.nextToken());
         map = new char[R][C];
-        visited = new boolean[R][C];
+        visitedF = new boolean[R][C];
+        visitedJ = new boolean[R][C];
         int[][] time = new int[R][C];
         int jR = 0, jC = 0; // 시작 위치
         Queue<int[]> q = new ArrayDeque<int[]>();
@@ -22,6 +23,10 @@ public class Main {
             for(int j = 0; j < C; j++) {
                 map[i][j] = input.charAt(j);
                 if(map[i][j] == 'J') {
+                    if(i == 0 || i == R - 1 || j == 0 || j == C - 1) {
+                        System.out.print(1);
+                        return;
+                    }
                     jR = i;
                     jC = j;
                     continue;
@@ -29,7 +34,7 @@ public class Main {
                 if(map[i][j] == 'F') {
                     q.add(new int[]{i, j}); // 초기 화재 시작 위치 저장
                     time[i][j] = -1;
-                    visited[i][j] = true;
+                    visitedF[i][j] = true;
                 }
             }
         }
@@ -44,8 +49,8 @@ public class Main {
                 for(int d = 0; d < 4; d++) {
                     int nr = r + dr[d];
                     int nc = c + dc[d];
-                    if(nr < 0 || nc < 0 || nr >= R || nc >= C || visited[nr][nc] || map[nr][nc] == '#') continue;
-                    visited[nr][nc] = true;
+                    if(nr < 0 || nc < 0 || nr >= R || nc >= C || visitedF[nr][nc] || map[nr][nc] == '#') continue;
+                    visitedF[nr][nc] = true;
                     time[nr][nc] = count;
                     q.add(new int[]{nr, nc});
                 }
@@ -54,9 +59,6 @@ public class Main {
         }
         count = 1; // 시간 초기화
         int ans = -1;
-        for(int i = 0; i < R; i++) {
-            Arrays.fill(visited[i], false); // 방문 초기화
-        }
         q.add(new int[]{jR, jC});
         j:
         while(!q.isEmpty()) {
@@ -72,9 +74,9 @@ public class Main {
                 for(int d = 0; d < 4; d++) {
                     int nr = r + dr[d];
                     int nc = c + dc[d];
-                    if(nr < 0 || nc < 0 || nr >= R || nc >= C || visited[nr][nc] || map[nr][nc] == '#') continue;
-                    if(time[nr][nc] <= count && time[nr][nc] != 0) continue; // 확산 시점보다 느리게 도착한 경우
-                    visited[nr][nc] = true;
+                    if(nr < 0 || nc < 0 || nr >= R || nc >= C || visitedJ[nr][nc] || map[nr][nc] == '#') continue;
+                    if(time[nr][nc] != 0 && time[nr][nc] <= count) continue; // 확산 시점보다 느리게 도착한 경우
+                    visitedJ[nr][nc] = true;
                     q.add(new int[]{nr, nc});
                 }
             }
