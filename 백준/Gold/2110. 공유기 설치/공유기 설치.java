@@ -19,10 +19,11 @@ public class Main {
             int mid = (min + max) / 2;
             int cnt = 1;                                 // 공유기 설치 개수
             int prev = houses[0];                        // 이전 공유기 설치 위치
-            for(int i = 1; i < N && cnt <= C; i++) {
+            for(int i = 1; i < N; i++) {
                 if(houses[i] - prev >= mid) {
                     cnt++;
                     prev = houses[i];
+                    if(cnt == C) break;
                 }
             }
             if(cnt >= C) {
