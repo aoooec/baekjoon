@@ -49,20 +49,26 @@ public class Main {
     static void bfs(int Sr, int Sc) {
         PriorityQueue<Fish> pq = new PriorityQueue<>();
         Queue<int[]> q = new ArrayDeque<>();
-        q.add(new int[]{Sr, Sc, 0});
+        q.add(new int[]{Sr, Sc});
         visited = new boolean[N][N];
+        int dist = 0;
         while(!q.isEmpty()) {
-            int[] tmp = q.poll();
-            for(int d = 0; d < 4; d++) {
-                int nr = tmp[0] + dr[d];
-                int nc = tmp[1] + dc[d];
-                if(nr < 0 || nc < 0 || nr >= N || nc >= N || visited[nr][nc] || map[nr][nc] > baby) continue;
-                visited[nr][nc] = true;
-                if(map[nr][nc] != 0 && map[nr][nc] < baby) {
-                    pq.add(new Fish(nr, nc, tmp[2] + 1));
+            int size = q.size();
+            dist++;
+            for(int i = 0; i < size; i++) {
+                int[] tmp = q.poll();
+                for(int d = 0; d < 4; d++) {
+                    int nr = tmp[0] + dr[d];
+                    int nc = tmp[1] + dc[d];
+                    if(nr < 0 || nc < 0 || nr >= N || nc >= N || visited[nr][nc] || map[nr][nc] > baby) continue;
+                    visited[nr][nc] = true;
+                    if(map[nr][nc] != 0 && map[nr][nc] < baby) {
+                        pq.add(new Fish(nr, nc, dist));
+                    }
+                    q.add(new int[] {nr, nc});
                 }
-                q.add(new int[] {nr, nc, tmp[2] + 1});
             }
+            if(!pq.isEmpty()) break;
         }
         if(pq.isEmpty()) return;
         Fish fish = pq.poll();
