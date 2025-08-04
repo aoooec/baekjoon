@@ -15,7 +15,6 @@ public class Main {
 
         @Override
         public int compareTo(Fish o) {
-            if(this.dist != o.dist) return this.dist - o.dist;
             if(this.r != o.r) return this.r - o.r;
             return this.c - o.c;
         }
