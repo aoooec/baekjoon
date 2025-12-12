@@ -2,28 +2,24 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.PriorityQueue;
 import java.util.StringTokenizer;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        int[] A = new int[N];
-        int[] B = new int[N];
+        PriorityQueue<Integer> A = new PriorityQueue<>();
+        PriorityQueue<Integer> B = new PriorityQueue<>(Collections.reverseOrder());
         StringTokenizer st = new StringTokenizer(br.readLine());
         StringTokenizer st2 = new StringTokenizer(br.readLine());
         for(int i = 0; i < N; i++) {
-            A[i] = Integer.parseInt(st.nextToken());
-            B[i] = Integer.parseInt(st2.nextToken());
+            A.add(Integer.parseInt(st.nextToken()));
+            B.add(Integer.parseInt(st2.nextToken()));
         }
-        Arrays.sort(A);
-        Integer[] bBox = new Integer[N];
-        for(int i = 0; i < N; i++) bBox[i] = B[i];
-        Arrays.sort(bBox, Collections.reverseOrder());
-
         int sum = 0;
-        for(int i = 0; i < N; i++) {
-            sum += A[i] * bBox[i];
+        while(!A.isEmpty() && !B.isEmpty()) {
+            sum += A.poll() * B.poll();
         }
         System.out.print(sum);
     }
