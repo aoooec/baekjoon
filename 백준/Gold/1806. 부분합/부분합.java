@@ -3,7 +3,6 @@ import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
 public class Main {
-    static int MAX_CNT = 100001;
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
@@ -11,22 +10,20 @@ public class Main {
         int S = Integer.parseInt(st.nextToken());
 
         int[] array = new int[N];
-        int sIdx = 0, min = MAX_CNT, sum = 0;
-
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            int num = Integer.parseInt(st.nextToken());
-            array[i] = num;
-            sum += num;
+        for (int i = 0; i < N; i++) array[i] = Integer.parseInt(st.nextToken());
+
+        int sIdx = 0, min = Integer.MAX_VALUE, sum = 0;
+
+        for (int right = 0; right < N; right++) {
+            sum += array[right];
 
             while (sum >= S) {
-                min = Math.min(min, i - sIdx + 1);
+                min = Math.min(min, right - sIdx + 1);
                 sum -= array[sIdx++];
             }
-
-            if (min == 1) break;
         }
 
-        System.out.print(min == MAX_CNT ? 0 : min);
+        System.out.print(min == Integer.MAX_VALUE ? 0 : min);
     }
 }
