@@ -4,22 +4,33 @@ import java.io.InputStreamReader;
 public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        char[] input = br.readLine().toUpperCase().toCharArray();
-        int[] count = new int[26];
-        int[] max = new int[2];
-        int[] prev = new int[2];
+        String input = br.readLine();
 
-        for (int i = 0; i < input.length; i++) {
-            char c = input[i];
-            int idx = c - 'A';
-            if (++count[idx] >= max[1]) {
-                prev[0] = max[0];
-                prev[1] = max[1];
-                max[0] = idx;
-                max[1] = count[idx];
+        int[] count = new int[26];
+        int max = 0;
+        int maxIdx = -1;
+        boolean isDup = false;
+
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            int idx = -1;
+
+            if (c >= 'a' && c <= 'z') {
+                idx = c - 'a';
+            } else {
+                idx = c - 'A';
+            }
+
+            int curr = ++count[idx];
+            if (curr > max) {
+                max = curr;
+                maxIdx = idx;
+                isDup = false;
+            } else if (curr == max) {
+                isDup = true;
             }
         }
 
-        System.out.print(prev[1] == max[1] ? "?" : (char)(max[0] + 'A'));
+        System.out.print(isDup ? "?" : (char)('A' + maxIdx));
     }
 }
