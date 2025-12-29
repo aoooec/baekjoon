@@ -1,23 +1,14 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.util.*;
 
 public class Main {
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-        Queue<Integer> cards = new LinkedList<>();
-        for (int i = 1; i <= N; i++) {
-            cards.offer(i);
-        }
+        int L = Integer.highestOneBit(N); // 정수의 이진수 표현에서 가장 왼쪽에 있는 1만 남김 -> N 이하의 가장 큰 2의 거듭제곱
+        int answer = N == L ? N : 2 * (N - L);
 
-        while (cards.size() != 1) {
-            cards.poll();
-            int second = cards.poll();
-            cards.offer(second);
-        }
-
-        System.out.print(cards.poll());
+        System.out.print(answer);
     }
 }
