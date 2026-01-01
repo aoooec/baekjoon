@@ -32,10 +32,15 @@ public class Main {
     }
 
     static void dfs(int r, int c, int count) {
-        if (r == 0 && c == C - 1) {
-            if (count == K) answer++;
+        if (count == K) {
+            if (r == 0 && c == C - 1) answer++;
             return;
         }
+
+        int need = Math.abs(r) + Math.abs(c - (C - 1));
+        int remain = K - count;
+        if (need > remain) return;
+        if (((remain - need) & 1) == 1) return;
 
         for (int d = 0; d < 4; d++) {
             int nr = r + dr[d];
