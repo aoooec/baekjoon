@@ -13,20 +13,13 @@ public class Main {
             int T = Integer.parseInt(st.nextToken());
 
             int[] line = new int[20];
+            for (int i = 0; i < 20; i++) line[i] = Integer.parseInt(st.nextToken());
+
             int cnt = 0;
-
-            for (int len = 0; len < 20; len++) {
-                int h = Integer.parseInt(st.nextToken());
-
-                int pos = 0;
-                while (pos < len && line[pos] < h) pos++;
-
-                cnt += (len - pos);
-
-                for (int j = len; j > pos; j--) {
-                    line[j] = line[j - 1];
+            for (int i = 0; i < 20; i++) {
+                for (int j = i + 1; j < 20; j++) {
+                    if (line[i] > line[j]) cnt++;
                 }
-                line[pos] = h;
             }
 
             sb.append(T).append(" ").append(cnt).append("\n");
