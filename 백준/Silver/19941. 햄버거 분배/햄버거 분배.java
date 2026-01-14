@@ -9,32 +9,22 @@ public class Main {
         int N = Integer.parseInt(st.nextToken());
         int K = Integer.parseInt(st.nextToken());
 
-        Queue<Integer> person = new ArrayDeque<>();
-        Queue<Integer> hamburger = new ArrayDeque<>();
-
-        String line = br.readLine();
+        char[] arr = br.readLine().toCharArray();
+        int cnt = 0;
+        int idx = 0;
 
         for (int i = 0; i < N; i++) {
-            if (line.charAt(i) == 'H') hamburger.offer(i);
-            else person.offer(i);
-        }
+            if (arr[i] != 'P') continue;
 
-        int cnt = 0;
-        while (!person.isEmpty() && !hamburger.isEmpty()) {
-            int pIdx = person.poll();
+            idx = Math.max(idx, i - K);
+            int right = Math.min(N - 1, i + K);
 
-            while (!hamburger.isEmpty()) {
-                int hIdx = hamburger.peek();
-
-                if (Math.abs(pIdx - hIdx) <= K) {
+            for (; idx <= right; idx++) {
+                if (arr[idx] == 'H') {
                     cnt++;
-                    hamburger.poll();
-                    break;
-                } else if (hIdx - pIdx > K) {
+                    idx++;
                     break;
                 }
-
-                hamburger.poll();
             }
         }
 
