@@ -16,14 +16,13 @@ public class Main {
 
         boolean[] robot = new boolean[N];
 
+        int start = 0;
         int step = 0;
         int zero = 0;
         while (true) {
             step++;
 
-            int last = durability[size - 1];
-            for (int i = size - 1; i >= 1; i--) durability[i] = durability[i - 1];
-            durability[0] = last;
+            start = (start - 1 + size) % size;
 
             for (int i = N - 1; i >= 1; i--) robot[i] = robot[i - 1];
             robot[0] = false;
@@ -32,19 +31,22 @@ public class Main {
             for (int i = N - 2; i >= 0; i--) {
                 if (!robot[i]) continue;
                 if (robot[i + 1]) continue;
-                if (durability[i + 1] <= 0) continue;
+
+                int nextIdx = (start + i + 1) % size;
+                if (durability[nextIdx] <= 0) continue;
 
                 robot[i] = false;
                 robot[i + 1] = true;
-                durability[i + 1]--;
-                if (durability[i + 1] == 0) zero++;
+                durability[nextIdx]--;
+                if (durability[nextIdx] == 0) zero++;
             }
             robot[N - 1] = false;
 
-            if (durability[0] > 0 && !robot[0]) {
+            int idx = start;
+            if (!robot[0] && durability[idx] > 0) {
                 robot[0] = true;
-                durability[0]--;
-                if (durability[0] == 0) zero++;
+                durability[idx]--;
+                if (durability[idx] == 0) zero++;
             }
 
             if (zero >= K) {
