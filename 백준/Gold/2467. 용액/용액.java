@@ -23,6 +23,8 @@ public class Main {
                 absSum = abs;
                 ansL = arr[left];
                 ansR = arr[right];
+                
+                if (sum == 0) break;
             }
 
             if (sum > 0) right--;
