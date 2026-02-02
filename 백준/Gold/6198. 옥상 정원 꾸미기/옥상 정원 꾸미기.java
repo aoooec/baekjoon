@@ -6,22 +6,17 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-        Stack<Integer> stack = new Stack<>();
+        Deque<Integer> stack = new ArrayDeque<>();
         long cnt = 0L;
         for (int i = 0; i < N; i++) {
             int num = Integer.parseInt(br.readLine());
 
-            if (stack.isEmpty()) {
-                stack.push(num);
-                continue;
-            }
-
-            while (!stack.isEmpty() && stack.peek() <= num) {
-                stack.pop();
+            while (!stack.isEmpty() && stack.peekLast() <= num) {
+                stack.pollLast();
             }
 
             cnt += stack.size();
-            stack.push(num);
+            stack.addLast(num);
         }
 
         System.out.print(cnt);
