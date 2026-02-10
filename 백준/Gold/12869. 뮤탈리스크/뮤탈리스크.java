@@ -73,8 +73,21 @@ public class Main {
     }
 
     static int[] sortDesc(int a, int b, int c) {
-        int[] arr = {a, b, c};
-        Arrays.sort(arr);
-        return new int[] {arr[2], arr[1], arr[0]};
+        if (a < b) {
+            int t = a;
+            a = b;
+            b = t;
+        }
+        if (b < c) {
+            int t = b;
+            b = c;
+            c = t;
+        }
+        if (a < b) {
+            int t = a;
+            a = b;
+            b = t;
+        }
+        return new int[]{a, b, c};
     }
 }
