@@ -17,19 +17,29 @@ public class Main {
 
         boolean[] dp = new boolean[sum + 1];
         dp[0] = true;
+        ArrayList<Integer> list = new ArrayList<>();
+        list.add(0);
 
         for (int w : weights) {
-            boolean[] next = new boolean[sum + 1];
+            boolean[] next = dp.clone();
+            ArrayList<Integer> nList = new ArrayList<>(list);
 
-            for (int d = 0; d <= sum; d++) {
-                if (!dp[d]) continue;
+            for (int d : list) {
+                int plus = d + w;
+                if (plus <= sum && !next[plus]) {
+                    next[plus] = true;
+                    nList.add(plus);
+                }
 
-                next[d] = true;
-                if (d + w <= sum)  next[d + w] = true;
-                next[Math.abs(d - w)] = true;
+                int diff = Math.abs(d - w);
+                if (!next[diff]) {
+                    next[diff] = true;
+                    nList.add(diff);
+                }
             }
 
             dp = next;
+            list = nList;
         }
 
         int B = Integer.parseInt(br.readLine());
@@ -39,10 +49,7 @@ public class Main {
         for (int i = 0; i < B; i++) {
             int num = Integer.parseInt(st.nextToken());
 
-            if (num > sum || !dp[num]) sb.append('N');
-            else sb.append('Y');
-
-            sb.append(' ');
+            sb.append((num <= sum && dp[num]) ? 'Y' : 'N').append(' ');
         }
 
         System.out.print(sb);
