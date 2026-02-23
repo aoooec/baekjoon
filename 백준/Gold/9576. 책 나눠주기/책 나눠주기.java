@@ -2,6 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    static int[] parent;
+
     static class Student implements Comparable<Student> {
         private int a, b;
 
@@ -25,14 +27,14 @@ public class Main {
         final int T = Integer.parseInt(br.readLine());
 
         for (int tc = 0; tc < T; tc++) {
-            st = new StringTokenizer(br.readLine());
+            st = new StringTokenizer(br.readLine(), " ");
 
             int N = Integer.parseInt(st.nextToken());
             int M = Integer.parseInt(st.nextToken());
 
             Student[] students = new Student[M];
             for (int i = 0; i < M; i++) {
-                st = new StringTokenizer(br.readLine());
+                st = new StringTokenizer(br.readLine(), " ");
                 int a = Integer.parseInt(st.nextToken());
                 int b = Integer.parseInt(st.nextToken());
                 students[i] = new Student(a, b);
@@ -40,16 +42,15 @@ public class Main {
 
             Arrays.sort(students);
 
-            boolean[] used = new boolean[N + 1];
-            int cnt = 0;
+            parent = new int[N + 2]; // N+2 -> 불가능
+            for (int i = 1; i <= N + 1; i++) parent[i] = i;
 
+            int cnt = 0;
             for (Student s : students) {
-                for (int book = s.a; book <= s.b; book++) {
-                    if (!used[book]) {
-                        used[book] = true;
-                        cnt++;
-                        break;
-                    }
+                int p = find(s.a);
+                if (p <= s.b) {
+                    cnt++;
+                    parent[p] = find(p + 1);
                 }
             }
 
@@ -57,5 +58,10 @@ public class Main {
         }
 
         System.out.print(sb);
+    }
+
+    static int find(int x) {
+        if (x == parent[x]) return x;
+        return parent[x] = find(parent[x]);
     }
 }
