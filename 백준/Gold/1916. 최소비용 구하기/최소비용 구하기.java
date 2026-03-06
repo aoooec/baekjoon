@@ -62,6 +62,8 @@ public class Main {
 
             if (curr.dist > dist[curr.city]) continue;
 
+            if (curr.city == end) break;
+
             for (Node next : graph[curr.city]) {
                 int nd = curr.dist + next.cost;
 
