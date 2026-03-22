@@ -21,7 +21,7 @@ public class Main {
             }
         }
 
-        devide(0, 0, N);
+        divide(0, 0, N);
 
         for (int c : cnt) {
             sb.append(c).append('\n');
@@ -30,39 +30,26 @@ public class Main {
         System.out.print(sb);
     }
 
-    static void devide(int r, int c, int size) {
+    static void divide(int r, int c, int size) {
         int first = papers[r][c];
-        boolean isSame = true;
 
-        for (int i = r; i < r + size; i++) {
-            for (int j = c; j < c + size; j++) {
+        int endR = r + size;
+        int endC = c + size;
+
+        for (int i = r; i < endR; i++) {
+            for (int j = c; j < endC; j++) {
                 if (papers[i][j] != first) {
-                    isSame = false;
-                    break;
+                    int nSize = size / 3;
+                    for (int nr = 0; nr < 3; nr++) {
+                        for (int nc = 0; nc < 3; nc++) {
+                            divide(r + nr * nSize, c + nc * nSize, nSize);
+                        }
+                    }
+                    return;
                 }
             }
-            if (!isSame) break;
         }
 
-        if (isSame) {
-            addCnt(first);
-            return;
-        }
-
-        int nSize = size / 3;
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                devide(r + i * nSize, c + j * nSize, nSize);
-            }
-        }
-    }
-
-    static void addCnt(int num) {
-        switch(num) {
-            case -1 : cnt[0]++; break;
-            case 0 : cnt[1]++; break;
-            case 1 : cnt[2]++; break;
-        }
+        cnt[first + 1]++;
     }
 }
