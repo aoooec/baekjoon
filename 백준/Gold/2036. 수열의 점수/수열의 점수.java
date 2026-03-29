@@ -26,14 +26,14 @@ public class Main {
 
         long ans = oneCnt;
 
-        for (int i = 0; i + 1 < plus.size(); i += 2) {
-            ans += (long) plus.get(i) * plus.get(i + 1);
+        for (int i = 1; i < plus.size(); i += 2) {
+            ans += (long) plus.get(i) * plus.get(i - 1);
         }
         if (plus.size() % 2 == 1) {
             ans += plus.get(plus.size() - 1);
         }
-        for (int i = 0; i + 1 < minus.size(); i += 2) {
-            ans += (long) minus.get(i) * minus.get(i + 1);
+        for (int i = 1; i < minus.size(); i += 2) {
+            ans += (long) minus.get(i) * minus.get(i - 1);
         }
         if (minus.size() % 2 == 1 && zeroCnt == 0) {
             ans += minus.get(minus.size() - 1);
