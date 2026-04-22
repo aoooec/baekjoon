@@ -21,7 +21,12 @@ public class Main {
                 prefix[i] = prefix[i - 1] + files[i];
             }
 
-            long[][] dp = new long[K + 1][K + 1];
+            long[][] dp = new long[K + 2][K + 2];
+            int[][] opt = new int[K + 2][K + 2];
+
+            for (int i = 1; i <= K; i++) {
+                opt[i][i] = i;
+            }
 
             for (int len = 2; len <= K; len++) {
                 for (int i = 1; i + len - 1 <= K; i++) {
@@ -30,8 +35,16 @@ public class Main {
 
                     long sum = prefix[j] - prefix[i - 1];
 
-                    for (int k = i; k < j; k++) {
-                        dp[i][j] = Math.min(dp[i][j], dp[i][k] + dp[k + 1][j] + sum);
+                    int start = opt[i][j - 1];
+                    int end = opt[i + 1][j];
+                    if (end == 0) end = j - 1;
+
+                    for (int k = start; k <= end; k++) {
+                        long cost = dp[i][k] + dp[k + 1][j] + sum;
+                        if (cost < dp[i][j]) {
+                            dp[i][j] = cost;
+                            opt[i][j] = k;
+                        }
                     }
                 }
             }
